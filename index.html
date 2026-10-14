@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jeremy Wee — Supply Chain &amp; Operations Leader</title>
+<meta name="description" content="Supply chain and operations leader with 19 years across Supermicro, Intel, Abbott, and Western Digital. End-to-end planning, capacity strategy, cost and pricing, systems transformation.">
+<style>
+:root{
+  --bg:#fbfbfa; --surface:#ffffff; --line:#e4e4e1; --line-soft:#eeeeec;
+  --ink:#16181d; --ink-2:#4a4f58; --ink-3:#787e88;
+  --accent:#1f5fd0; --accent-soft:#eaf0fc;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1013; --surface:#15181d; --line:#262a31; --line-soft:#1e2127;
+    --ink:#f0f1f3; --ink-2:#aeb4be; --ink-3:#777e89;
+    --accent:#6a9bf0; --accent-soft:#182236;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1013; --surface:#15181d; --line:#262a31; --line-soft:#1e2127;
+  --ink:#f0f1f3; --ink-2:#aeb4be; --ink-3:#777e89;
+  --accent:#6a9bf0; --accent-soft:#182236;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:var(--bg);
+  border-bottom:1px solid var(--line-soft)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.mark{font-weight:650;letter-spacing:-.01em;font-size:15px;color:var(--ink)}
+.mark span{color:var(--ink-3);font-weight:400}
+.navlinks{display:flex;gap:26px;align-items:center}
+.navlinks a{font-size:13.5px;color:var(--ink-2);letter-spacing:.01em}
+.navlinks a:hover{color:var(--ink);text-decoration:none}
+#themeBtn{background:none;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;
+  border-radius:7px;width:30px;height:30px;font-size:13px;line-height:1;display:grid;place-items:center}
+#themeBtn:hover{color:var(--ink);border-color:var(--ink-3)}
+@media(max-width:620px){.navlinks a:not(.cta){display:none}}
+
+/* ---------- hero ---------- */
+header{padding:92px 0 64px;border-bottom:1px solid var(--line-soft)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 20px}
+h1{font-family:var(--serif);font-size:clamp(42px,7vw,68px);line-height:1.02;letter-spacing:-.025em;
+  margin:0 0 20px;font-weight:600}
+.lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink-2);max-width:62ch;margin:0 0 14px;line-height:1.55}
+.lede b{color:var(--ink);font-weight:600}
+.pitch{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--ink-2);
+  max-width:60ch;margin:26px 0 0;padding-left:18px;border-left:2px solid var(--accent)}
+.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;
+  font-size:14px;font-weight:500;border:1px solid var(--line);color:var(--ink-2);background:var(--surface)}
+.btn:hover{border-color:var(--ink-3);color:var(--ink);text-decoration:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);color:#fff}
+
+/* ---------- sections ---------- */
+section{padding:72px 0;border-bottom:1px solid var(--line-soft)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:38px}
+h2{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0;font-weight:500;white-space:nowrap}
+.sec-head .rule{flex:1;height:1px;background:var(--line)}
+
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.metric{background:var(--surface);padding:24px 22px}
+.metric .n{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:-.02em;
+  color:var(--ink);line-height:1.1;display:block}
+.metric .l{font-size:13.5px;color:var(--ink-2);margin-top:9px;line-height:1.45}
+
+/* ---------- experience ---------- */
+.job{display:grid;grid-template-columns:168px 1fr;gap:34px;padding:30px 0;border-top:1px solid var(--line-soft)}
+.job:first-child{border-top:none;padding-top:0}
+.job .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);padding-top:5px;letter-spacing:.01em}
+.job h3{margin:0;font-size:18.5px;font-weight:620;letter-spacing:-.01em}
+.job .role{color:var(--accent);font-size:14.5px;font-weight:500;margin:4px 0 13px}
+.job ul{margin:0;padding-left:17px;color:var(--ink-2);font-size:14.5px}
+.job li{margin-bottom:7px}
+.job li::marker{color:var(--ink-3)}
+.job li b{color:var(--ink);font-weight:600}
+@media(max-width:700px){.job{grid-template-columns:1fr;gap:10px}.job .when{padding-top:0}}
+
+/* ---------- capabilities ---------- */
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:13px}
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:21px 22px}
+.cap h4{margin:0 0 9px;font-size:14.5px;font-weight:620;letter-spacing:-.005em}
+.cap p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+
+/* ---------- stack ---------- */
+.stack-row{display:grid;grid-template-columns:150px 1fr;gap:22px;padding:15px 0;
+  border-top:1px solid var(--line-soft);align-items:baseline}
+.stack-row:first-child{border-top:none}
+.stack-row .k{font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:13px;padding:4.5px 11px;border-radius:999px;background:var(--accent-soft);
+  color:var(--ink);border:1px solid transparent}
+@media(max-width:620px){.stack-row{grid-template-columns:1fr;gap:9px}}
+
+/* ---------- education ---------- */
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.edu .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:21px 22px}
+.edu .deg{font-weight:620;font-size:15px;margin:0 0 5px}
+.edu .school{color:var(--ink-2);font-size:13.5px;margin:0}
+@media(max-width:620px){.edu{grid-template-columns:1fr}}
+
+/* ---------- contact ---------- */
+.contact{text-align:center;padding:84px 0}
+.contact h3{font-family:var(--serif);font-size:clamp(28px,4.6vw,40px);font-weight:600;
+  letter-spacing:-.02em;margin:0 0 15px}
+.contact p{color:var(--ink-2);max-width:48ch;margin:0 auto 32px;font-size:16.5px}
+footer{border-top:1px solid var(--line-soft);padding:26px 0;display:flex;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;font-size:13px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="mark">Jeremy Wee <span>/ Supply Chain</span></div>
+    <div class="navlinks">
+      <a href="#impact">Impact</a>
+      <a href="#experience">Experience</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#stack">Systems</a>
+      <a href="#contact" class="cta">Contact</a>
+      <button id="themeBtn" title="Toggle theme" aria-label="Toggle colour theme">&#9680;</button>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">San Jose, California</p>
+    <h1>Jeremy Wee</h1>
+    <p class="lede">Supply chain and operations leader building the planning engines behind
+      <b>AI/GPU infrastructure, semiconductor substrates, regulated medical devices,</b> and
+      <b>flash storage</b> &mdash; across Supermicro, Intel, Abbott, and Western Digital.</p>
+    <p class="pitch">Most of my work lives where three things meet: the forecast, the factory, and the P&amp;L.</p>
+    <div class="actions">
+      <a class="btn primary" href="#experience">View experience</a>
+      <a class="btn" href="https://linkedin.com/in/jeremywee88" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="mailto:weeasu@gmail.com">Email</a>
+    </div>
+  </div>
+</header>
+
+<section id="impact">
+  <div class="wrap">
+    <div class="sec-head"><h2>Measured Impact</h2><div class="rule"></div></div>
+    <div class="metrics">
+      <div class="metric"><span class="n">$100M+</span><div class="l">Cost savings from planning-system solver logic and allocation optimization at Intel</div></div>
+      <div class="metric"><span class="n">$44M+</span><div class="l">Delivered through AI-driven pricing and allocation forecasting tools</div></div>
+      <div class="metric"><span class="n">$250&ndash;350M</span><div class="l">CapEx planning owned across global semiconductor manufacturing expansion</div></div>
+      <div class="metric"><span class="n">30% / 40%</span><div class="l">Reduction in assembly-in inventory and supplier inventory respectively</div></div>
+      <div class="metric"><span class="n">18% &rarr; 50%</span><div class="l">Supplier utilization lift via supplier strategy and NPI pricing negotiation</div></div>
+      <div class="metric"><span class="n">60% &rarr; &lt;30%</span><div class="l">Supplier price variation, through automated and standardized RFQ processes</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><h2>Experience</h2><div class="rule"></div></div>
+
+    <div class="job">
+      <div class="when">10/2025 &mdash; Present</div>
+      <div>
+        <h3>Super Micro Computer (Supermicro)</h3>
+        <div class="role">Sr. Manager, Cost Control &amp; Supply Planning</div>
+        <ul>
+          <li>Own end-to-end supply planning, cost control, and pricing strategy for <b>AI/GPU server and data center infrastructure</b> at a $15B global technology leader</li>
+          <li>Lead and develop a team of planners across the <b>U.S., Taiwan, and Malaysia</b>, driving supply readiness for high-complexity, long-lead-time components</li>
+          <li>Translate AI-driven demand signals into executable supply strategies across procurement, manufacturing, and logistics networks supporting rapid product ramps</li>
+          <li>Lead supplier cost modeling, pricing negotiations, and sourcing strategy to protect margin in a highly competitive data center market</li>
+          <li>Introduced standardized planning processes and tooling improvements, increasing cross-functional visibility and reducing supply planning cycle time</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="when">11/2021 &mdash; 7/2025</div>
+      <div>
+        <h3>Intel Corporation</h3>
+        <div class="role">Program Manager, Substrate Operations &amp; Systems</div>
+        <ul>
+          <li>Directed enhancements to the <b>MaPPS planning system</b> &mdash; solver logic refinement and allocation optimization &mdash; delivering <b>$100M+ in cost savings</b>; served as SME for substrate planning systems</li>
+          <li>Partnered with data science and software teams to build AI-driven pricing and allocation forecasting tools, delivering <b>$44M+ in impact</b></li>
+          <li>Managed the Foundry special deals checkbook and directed WIF request governance across CPLG, product planning, finance, and engineering</li>
+          <li>Built supplier relationships and negotiated NPI pricing, increasing supplier utilization <b>from 18% to 50%</b></li>
+          <li>Co-led inventory reduction with CPLG and Finance: <b>30% decrease</b> in assembly-in inventory, <b>40% reduction</b> in supplier inventory</li>
+          <li>Automated RFQ processes, cutting quote turnaround by <b>5+ days</b> and reducing supplier price variation from over 60% to under 30%</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="when">11/2019 &mdash; 11/2021</div>
+      <div>
+        <h3>Abbott Laboratories <span style="color:var(--ink-3);font-weight:400">&middot; Diabetes Care</span></h3>
+        <div class="role">Global Supply Chain Manager</div>
+        <ul>
+          <li>Led a global supply and capacity planning organization supporting <b>regulated medical device manufacturing</b></li>
+          <li>Served as SME for the <b>SAP IBP implementation</b>, leading the full lifecycle &mdash; design, UAT, go-live, and post-launch optimization</li>
+          <li>Owned long-range supply planning aligned to financial forecasts, inventory targets, and business strategy</li>
+          <li>Partnered with NPI, Operations, and Sourcing to ensure material readiness and supply continuity</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="when">8/2006 &mdash; 11/2019</div>
+      <div>
+        <h3>Western Digital / SanDisk</h3>
+        <div class="role">Senior Supply Chain / Capacity Planning Manager</div>
+        <ul>
+          <li>Led global long-range planning (SSP/AOP), inventory strategy, and capacity planning across semiconductor operations</li>
+          <li>Managed <b>$250M&ndash;$350M in CapEx planning</b>, supporting global manufacturing expansion and technology transitions</li>
+          <li>Delivered <b>10%+ CapEx savings</b> and approximately <b>20% capital avoidance</b> through scenario modeling and optimization</li>
+          <li>Owned the monthly production planning process across wafer, assembly, and test &mdash; balancing capacity utilization, material availability, and demand signals</li>
+          <li>Established executive dashboards and KPIs tracking forecast accuracy, cycle time, inventory turns, on-time starts, and service levels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="wrap">
+    <div class="sec-head"><h2>Capabilities</h2><div class="rule"></div></div>
+    <div class="caps">
+      <div class="cap"><h4>End-to-End Supply Chain Ownership</h4><p>Planning through procurement through fulfillment &mdash; accountable for the whole chain, not a segment of it.</p></div>
+      <div class="cap"><h4>S&amp;OP / IBP &amp; Capacity Planning</h4><p>Supply planning, LRP and AOP capacity strategy, MRP and MPS logic, inventory and BOM planning architecture.</p></div>
+      <div class="cap"><h4>Demand &amp; Forecast Modeling</h4><p>Statistical and AI/ML-driven forecasting, scenario modeling, and allocation simulation for executive decision support.</p></div>
+      <div class="cap"><h4>Cost, Pricing &amp; Margin</h4><p>Supplier cost modeling, pricing strategy, RFQ governance, and margin optimization in competitive hardware markets.</p></div>
+      <div class="cap"><h4>Supplier Strategy &amp; Risk</h4><p>Negotiation, NPI pricing, utilization strategy, and proactive delivery-risk management across global supplier networks.</p></div>
+      <div class="cap"><h4>Systems &amp; Transformation</h4><p>SAP ERP and IBP implementation, solver logic, automation workflows &mdash; the bridge between business need and IT delivery.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head"><h2>Systems &amp; Tools</h2><div class="rule"></div></div>
+    <div class="stack-row"><div class="k">Planning</div><div class="chips">
+      <span class="chip">SAP</span><span class="chip">SAP IBP</span><span class="chip">Blue Yonder (i2)</span>
+      <span class="chip">Kinaxis RapidResponse</span><span class="chip">MRP / MPS</span><span class="chip">ERP</span></div></div>
+    <div class="stack-row"><div class="k">Analytics</div><div class="chips">
+      <span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">SQL</span>
+      <span class="chip">Excel &mdash; VBA &amp; Solver</span><span class="chip">Scenario Modeling</span></div></div>
+    <div class="stack-row"><div class="k">Process</div><div class="chips">
+      <span class="chip">S&amp;OP</span><span class="chip">IBP</span><span class="chip">LRP / AOP</span>
+      <span class="chip">NPI</span><span class="chip">RFQ Governance</span><span class="chip">CRM</span></div></div>
+    <div class="stack-row"><div class="k">Languages</div><div class="chips">
+      <span class="chip">English</span><span class="chip">Mandarin</span><span class="chip">Cantonese</span>
+      <span class="chip">Malay</span></div></div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head"><h2>Education</h2><div class="rule"></div></div>
+    <div class="edu">
+      <div class="card"><p class="deg">M.S., Industrial Engineering</p><p class="school">Arizona State University</p></div>
+      <div class="card"><p class="deg">B.S., Industrial Engineering &amp; Management</p><p class="school">National Chiao Tung University</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none">
+  <div class="wrap contact">
+    <h3>Let&rsquo;s talk supply.</h3>
+    <p>Open to senior supply chain and operations leadership roles. Based in San Jose, California.</p>
+    <div class="actions" style="justify-content:center">
+      <a class="btn primary" href="mailto:weeasu@gmail.com">weeasu@gmail.com</a>
+      <a class="btn" href="https://linkedin.com/in/jeremywee88" target="_blank" rel="noopener">linkedin.com/in/jeremywee88</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><footer>
+  <span>&copy; <span id="yr"></span> Jeremy Wee</span>
+  <span>San Jose, CA</span>
+</footer></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+(function(){
+  var btn = document.getElementById('themeBtn'), root = document.documentElement;
+  try{ var s = localStorage.getItem('theme'); if(s) root.setAttribute('data-theme', s); }catch(e){}
+  btn.addEventListener('click', function(){
+    var dark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('theme', next); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
