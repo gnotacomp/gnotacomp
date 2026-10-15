@@ -32,6 +32,14 @@ Most of my work lives where three things meet: **the forecast, the factory, and 
 
 ---
 
+### Projects
+
+**[Mindfulity](https://mindfulity.com)** — *live* · [case study](https://gnotacomp.github.io/gnotacomp/projects/mindfulity/) · [source](https://github.com/gnotacomp/Mindfulity)
+A life-transformation platform for people moving through job loss, burnout, financial uncertainty and reinvention. Ten content modules over a many-to-many taxonomy, Supabase auth and Postgres, and a multi-agent AI pipeline that takes a raw draft to a published, tagged article without a human touching the repo.
+`Next.js 15` · `React 19` · `TypeScript` · `Supabase` · `Tailwind` · `AI agents`
+
+---
+
 ### Where I've worked
 
 **Super Micro Computer (Supermicro)** — *Sr. Manager, Cost Control & Supply Planning* · 2025–Present

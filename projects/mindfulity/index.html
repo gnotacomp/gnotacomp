@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mindfulity — Life Transformation Platform</title>
+<meta name="description" content="Mindfulity: a life-transformation platform for navigating job loss, burnout, financial uncertainty and reinvention. Next.js 15, Supabase, and a multi-agent AI content pipeline.">
+<style>
+:root{
+  --bg:#fbfbfa; --surface:#ffffff; --surface-2:#f6f7f6; --line:#e3e5e3; --line-soft:#eeefee;
+  --ink:#15181a; --ink-2:#48524f; --ink-3:#77817d;
+  --accent:#107a63; --accent-soft:#e6f3ef; --accent-ink:#0b5a49;
+  --warn:#8a6d1f; --warn-soft:#fdf6e3;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d100f; --surface:#141817; --surface-2:#191e1c; --line:#262d2b; --line-soft:#1d2322;
+    --ink:#eef1f0; --ink-2:#a8b3af; --ink-3:#73807b;
+    --accent:#4fbfa0; --accent-soft:#132821; --accent-ink:#7ad3b8;
+    --warn:#d8b863; --warn-soft:#241f12;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d100f; --surface:#141817; --surface-2:#191e1c; --line:#262d2b; --line-soft:#1d2322;
+  --ink:#eef1f0; --ink-2:#a8b3af; --ink-3:#73807b;
+  --accent:#4fbfa0; --accent-soft:#132821; --accent-ink:#7ad3b8;
+  --warn:#d8b863; --warn-soft:#241f12;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+
+nav{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line-soft)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.back{font-size:13.5px;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px}
+.back:hover{color:var(--ink);text-decoration:none}
+.navlinks{display:flex;gap:22px;align-items:center}
+.navlinks a{font-size:13.5px;color:var(--ink-2)}
+.navlinks a:hover{color:var(--ink);text-decoration:none}
+#themeBtn{background:none;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;
+  border-radius:7px;width:30px;height:30px;font-size:13px;display:grid;place-items:center}
+#themeBtn:hover{color:var(--ink);border-color:var(--ink-3)}
+@media(max-width:700px){.navlinks a{display:none}}
+
+header{padding:80px 0 58px;border-bottom:1px solid var(--line-soft)}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);
+  padding:5px 12px;border-radius:999px;margin-bottom:22px}
+h1{font-family:var(--serif);font-size:clamp(40px,6.5vw,62px);line-height:1.03;letter-spacing:-.025em;
+  margin:0 0 16px;font-weight:600}
+.tagline{font-family:var(--serif);font-size:clamp(19px,2.6vw,23px);font-style:italic;color:var(--ink-2);margin:0 0 24px}
+.lede{font-size:17.5px;color:var(--ink-2);max-width:64ch;margin:0}
+.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 19px;border-radius:9px;font-size:14px;
+  font-weight:500;border:1px solid var(--line);color:var(--ink-2);background:var(--surface);cursor:pointer}
+.btn:hover{border-color:var(--ink-3);color:var(--ink);text-decoration:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);color:#fff}
+.btn.disabled{opacity:.5;cursor:not-allowed}
+
+section{padding:68px 0;border-bottom:1px solid var(--line-soft)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+h2{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  margin:0;font-weight:500;white-space:nowrap}
+.sec-head .rule{flex:1;height:1px;background:var(--line)}
+.sec-intro{color:var(--ink-2);max-width:66ch;margin:0 0 34px;font-size:15.5px}
+
+/* problem */
+.problem{font-family:var(--serif);font-size:clamp(21px,3vw,27px);line-height:1.45;letter-spacing:-.015em;
+  max-width:26ch;margin:0 0 28px}
+.problem em{color:var(--accent);font-style:normal}
+.pcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:26px;margin-top:34px}
+.pcol h4{margin:0 0 7px;font-size:14.5px;font-weight:620}
+.pcol p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+
+/* demo */
+.demo-frame{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--surface-2)}
+.demo-bar{display:flex;align-items:center;gap:9px;padding:11px 15px;border-bottom:1px solid var(--line);
+  background:var(--surface)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.demo-url{flex:1;font-family:var(--mono);font-size:12px;color:var(--ink-3);text-align:center;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#demoBox{height:560px;display:grid;place-items:center;padding:40px;text-align:center}
+#demoBox iframe{width:100%;height:100%;border:0;display:block}
+.demo-pending{max-width:42ch}
+.demo-pending .big{font-family:var(--serif);font-size:24px;margin:0 0 10px;color:var(--ink)}
+.demo-pending p{color:var(--ink-2);font-size:14.5px;margin:0 0 18px}
+.demo-pending code{font-family:var(--mono);font-size:12.5px;background:var(--surface);
+  border:1px solid var(--line);padding:2.5px 7px;border-radius:5px;color:var(--ink-2)}
+.demo-live{max-width:46ch}
+.live-pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);
+  padding:6px 13px;border-radius:999px;margin-bottom:22px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 0 var(--accent);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}
+  70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+.demo-live .big{font-family:var(--serif);font-size:clamp(30px,5vw,42px);font-weight:600;
+  letter-spacing:-.02em;margin:0 0 8px;color:var(--ink)}
+.demo-live .sub{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink-2);margin:0 0 6px}
+.demo-live .note{font-size:12.5px;color:var(--ink-3);margin:20px 0 0;line-height:1.5}
+.demo-live .note code{font-family:var(--mono);font-size:11.5px;background:var(--surface);
+  border:1px solid var(--line);padding:2px 6px;border-radius:5px}
+@media(max-width:700px){#demoBox{height:420px}}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:24px}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px 14px;
+  cursor:pointer;text-align:left;font:inherit;color:inherit;transition:border-color .15s,background .15s}
+.stage:hover{border-color:var(--accent)}
+.stage[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.stage .num{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em}
+.stage .nm{display:block;font-weight:620;font-size:14.5px;margin-top:7px;letter-spacing:-.005em}
+.stage .ro{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.stage-detail{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 26px;min-height:150px}
+.stage-detail h4{margin:0 0 9px;font-size:16.5px;font-weight:620}
+.stage-detail p{margin:0 0 13px;color:var(--ink-2);font-size:14.5px;line-height:1.6}
+.stage-detail .io{display:flex;gap:9px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
+.stage-detail .io span{background:var(--surface-2);border:1px solid var(--line);padding:4px 10px;border-radius:6px;color:var(--ink-2)}
+@media(max-width:760px){.pipe{grid-template-columns:repeat(2,1fr)}}
+
+/* taxonomy */
+.mods{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.mod{font-size:13.5px;padding:7px 14px;border-radius:999px;background:var(--surface);
+  border:1px solid var(--line);cursor:pointer;font-family:inherit;color:var(--ink-2);transition:all .15s}
+.mod:hover{border-color:var(--accent);color:var(--ink)}
+.mod[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.mod-panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.mod-panel h4{margin:0 0 6px;font-size:17px;font-weight:620}
+.mod-panel .blurb{color:var(--ink-2);font-size:14.5px;margin:0 0 18px}
+.cats{display:flex;flex-wrap:wrap;gap:7px}
+.cat{font-size:12.5px;padding:4.5px 11px;border-radius:7px;background:var(--accent-soft);color:var(--accent-ink)}
+.cat.empty{background:var(--surface-2);color:var(--ink-3);font-style:italic}
+
+/* architecture */
+.arch{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:22px}
+.layer{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:19px 21px}
+.layer .lk{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.layer h4{margin:8px 0 7px;font-size:15px;font-weight:620}
+.layer p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+@media(max-width:700px){.arch{grid-template-columns:1fr}}
+.swap{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.swap-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.swap-head h4{margin:0;font-size:15px;font-weight:620}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.toggle button{background:var(--surface);border:0;padding:7px 14px;font:inherit;font-size:13px;
+  color:var(--ink-2);cursor:pointer}
+.toggle button[aria-selected="true"]{background:var(--accent);color:#fff}
+pre{margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:16px 18px;
+  overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink-2)}
+pre b{color:var(--accent-ink);font-weight:600}
+.swap-note{margin:14px 0 0;font-size:13.5px;color:var(--ink-2)}
+
+/* stack */
+.stack-row{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:14px 0;
+  border-top:1px solid var(--line-soft);align-items:baseline}
+.stack-row:first-child{border-top:none}
+.stack-row .k{font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:13px;padding:4.5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+@media(max-width:620px){.stack-row{grid-template-columns:1fr;gap:8px}}
+
+/* status */
+.status-list{display:grid;gap:9px}
+.srow{display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:start;background:var(--surface);
+  border:1px solid var(--line);border-radius:10px;padding:15px 18px}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 9px;border-radius:6px;text-align:center}
+.badge.live{background:var(--accent-soft);color:var(--accent-ink)}
+.badge.scaf{background:var(--warn-soft);color:var(--warn)}
+.srow .txt{font-size:14px;color:var(--ink-2)}
+.srow .txt b{color:var(--ink);font-weight:620}
+@media(max-width:600px){.srow{grid-template-columns:1fr;gap:8px}.badge{justify-self:start}}
+
+footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:13.5px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="back" href="../../">&larr; Jeremy Wee</a>
+    <div class="navlinks">
+      <a href="#demo">Demo</a>
+      <a href="#pipeline">AI Pipeline</a>
+      <a href="#taxonomy">Platform</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#status">Status</a>
+      <button id="themeBtn" title="Toggle theme" aria-label="Toggle colour theme">&#9680;</button>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Hackathon Entry</div>
+    <h1>Mindfulity</h1>
+    <p class="tagline">Navigate life&rsquo;s transitions &mdash; and transform them.</p>
+    <p class="lede">A life-transformation platform for people moving through loneliness, burnout, job loss,
+      career transition, financial uncertainty, and reinvention &mdash; combining education, coaching, community,
+      and wellness resources in one calm, unified experience. Built on Next.js 15 and Supabase, with a
+      multi-agent AI pipeline that turns a raw draft into a published, taxonomy-tagged article.</p>
+    <div class="actions">
+      <a class="btn primary" id="demoBtn" href="#demo">Live demo</a>
+      <a class="btn" href="https://github.com/gnotacomp/Mindfulity" target="_blank" rel="noopener">Source on GitHub</a>
+      <a class="btn" href="#pipeline">How the AI pipeline works</a>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head"><h2>The Problem</h2><div class="rule"></div></div>
+    <p class="problem">Life transitions are handled by <em>fragmented tools</em> that each solve one tenth of the problem.</p>
+    <p class="sec-intro">Someone who loses a job at 55 needs career help, financial guidance, and mental-health
+      support at the same moment &mdash; and today that means a job board, a budgeting app, a therapy directory,
+      and a dozen browser tabs, none of which know about each other. Mindfulity treats the transition itself as
+      the organizing unit, not the service category.</p>
+    <div class="pcols">
+      <div class="pcol"><h4>Fragmented</h4><p>Career, financial, and mental wellness resources live in separate products that never share context.</p></div>
+      <div class="pcol"><h4>Transactional</h4><p>Most platforms optimize for a conversion event, not for someone&rsquo;s eighteen-month recovery arc.</p></div>
+      <div class="pcol"><h4>Content-starved</h4><p>Quality guidance for these moments is expensive to produce, so platforms ship thin libraries that go stale.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="sec-head"><h2>Live Demo</h2><div class="rule"></div></div>
+    <p class="sec-intro">The running application &mdash; browse it inline, or open it in a new tab for the full experience.</p>
+    <div class="demo-frame">
+      <div class="demo-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="demo-url" id="demoUrlLabel">mindfulity</span>
+      </div>
+      <div id="demoBox">
+        <div class="demo-pending">
+          <p class="big">Demo link pending</p>
+          <p>Mindfulity is deployed, but its URL hasn&rsquo;t been wired into this page yet.
+             Set it once in <code>DEMO_URL</code> at the bottom of this file and the live app
+             embeds here automatically.</p>
+          <a class="btn" href="https://github.com/gnotacomp/Mindfulity" target="_blank" rel="noopener">Browse the source meanwhile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <div class="sec-head"><h2>Multi-Agent Content Pipeline</h2><div class="rule"></div></div>
+    <p class="sec-intro">Drop a raw markdown draft into <code style="font-family:var(--mono);font-size:13px">content/_inbox/</code>
+      and four specialized agents take it from there &mdash; writing, tagging against the taxonomy, and committing
+      the published article. Click a stage to see what it owns.</p>
+    <div class="pipe" role="tablist" aria-label="Pipeline stages">
+      <button class="stage" role="tab" aria-selected="true" data-i="0"><span class="num">01</span><span class="nm">Orchestrator</span><span class="ro">Routes &amp; delegates</span></button>
+      <button class="stage" role="tab" aria-selected="false" data-i="1"><span class="num">02</span><span class="nm">Content Creator</span><span class="ro">Drafts &amp; shapes</span></button>
+      <button class="stage" role="tab" aria-selected="false" data-i="2"><span class="num">03</span><span class="nm">Content Manager</span><span class="ro">Tags &amp; validates</span></button>
+      <button class="stage" role="tab" aria-selected="false" data-i="3"><span class="num">04</span><span class="nm">Code Dev</span><span class="ro">Commits &amp; ships</span></button>
+    </div>
+    <div class="stage-detail" id="stageDetail" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head"><h2>Platform Taxonomy</h2><div class="rule"></div></div>
+    <p class="sec-intro">Ten modules spanning the full arc of a life transition. The schema separates taxonomy from
+      content &mdash; categories and subcategories are many-to-many, so a single article on burnout can surface under
+      Mental Wellness, Career Recovery, and Transformation without being duplicated. Select a module to explore it.</p>
+    <div class="mods" role="tablist" aria-label="Platform modules"></div>
+    <div class="mod-panel" id="modPanel" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="sec-head"><h2>Architecture</h2><div class="rule"></div></div>
+    <p class="sec-intro">The design decision the project rests on: pages never touch the filesystem or the database
+      directly. Everything goes through a <code style="font-family:var(--mono);font-size:13px">ContentProvider</code>
+      interface, so the storage backend is a one-line swap.</p>
+    <div class="arch">
+      <div class="layer"><div class="lk">Presentation</div><h4>Next.js 15 App Router</h4><p>React 19 server components, static generation for article routes, Tailwind for styling. Dynamic <code style="font-family:var(--mono);font-size:12px">[module]</code> and <code style="font-family:var(--mono);font-size:12px">articles/[slug]</code> segments driven by config.</p></div>
+      <div class="layer"><div class="lk">Abstraction</div><h4>ContentProvider interface</h4><p>A single contract in <code style="font-family:var(--mono);font-size:12px">lib/content/provider.ts</code>. Two implementations ship today &mdash; MDX filesystem and Supabase Postgres &mdash; selected in one place.</p></div>
+      <div class="layer"><div class="lk">Data</div><h4>Supabase</h4><p>Auth with OAuth callback handling, Postgres holding the category/subcategory/module taxonomy, and storage. Typed end-to-end against the generated schema.</p></div>
+      <div class="layer"><div class="lk">Automation</div><h4>Agent workflow</h4><p>Four Claude agents defined as markdown specs in <code style="font-family:var(--mono);font-size:12px">.claude/agents/</code>, invoked by a publish script that writes straight into the content store.</p></div>
+    </div>
+    <div class="swap">
+      <div class="swap-head">
+        <h4>Same page code, either backend</h4>
+        <div class="toggle" role="tablist" aria-label="Content provider">
+          <button role="tab" aria-selected="true" data-p="mdx">MDX files</button>
+          <button role="tab" aria-selected="false" data-p="supabase">Supabase</button>
+        </div>
+      </div>
+      <pre id="swapCode"></pre>
+      <p class="swap-note" id="swapNote"></p>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head"><h2>Stack</h2><div class="rule"></div></div>
+    <div class="stack-row"><div class="k">Framework</div><div class="chips">
+      <span class="chip">Next.js 15</span><span class="chip">React 19</span><span class="chip">App Router</span>
+      <span class="chip">TypeScript</span></div></div>
+    <div class="stack-row"><div class="k">Styling</div><div class="chips">
+      <span class="chip">Tailwind CSS</span><span class="chip">PostCSS</span></div></div>
+    <div class="stack-row"><div class="k">Content</div><div class="chips">
+      <span class="chip">MDX</span><span class="chip">next-mdx-remote</span><span class="chip">gray-matter</span>
+      <span class="chip">remark-gfm</span><span class="chip">rehype-slug</span><span class="chip">reading-time</span></div></div>
+    <div class="stack-row"><div class="k">Backend</div><div class="chips">
+      <span class="chip">Supabase Auth</span><span class="chip">Postgres</span><span class="chip">Storage</span>
+      <span class="chip">@supabase/ssr</span></div></div>
+    <div class="stack-row"><div class="k">Automation</div><div class="chips">
+      <span class="chip">Claude agents</span><span class="chip">Publish scripts</span><span class="chip">Supabase seeding</span></div></div>
+    <div class="stack-row"><div class="k">Deploy</div><div class="chips">
+      <span class="chip">Vercel</span></div></div>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <div class="sec-head"><h2>Build Status</h2><div class="rule"></div></div>
+    <p class="sec-intro">An honest accounting of what runs today versus what is scaffolded for the next phase.
+      The app runs fully without the optional integrations configured.</p>
+    <div class="status-list">
+      <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Module &amp; article routing</b> — ten module landing pages and statically generated article routes, driven by site config</span></div>
+      <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Content provider abstraction</b> — MDX and Supabase implementations behind one interface, swappable without touching pages</span></div>
+      <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Supabase auth</b> — login, signup, OAuth callback, and account pages wired end-to-end</span></div>
+      <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Agent publishing workflow</b> — inbox-to-published pipeline with four agent specs and publish scripts</span></div>
+      <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Taxonomy schema</b> — categories, subcategories, modules and their many-to-many joins, seeded into Postgres</span></div>
+      <div class="srow"><span class="badge scaf">Scaffolded</span><span class="txt"><b>Payments</b> — Stripe and PayPal environment scaffolding in place, checkout flows not yet built</span></div>
+      <div class="srow"><span class="badge scaf">Scaffolded</span><span class="txt"><b>Academy &amp; Shop modules</b> — defined in the taxonomy with navigation, course and commerce features pending</span></div>
+      <div class="srow"><span class="badge scaf">Early</span><span class="txt"><b>Content library</b> — two full articles published through the pipeline; the pipeline is the product, the library grows from it</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><footer>
+  <span>Mindfulity &mdash; built by <a href="../../">Jeremy Wee</a></span>
+  <span><a href="https://github.com/gnotacomp/Mindfulity" target="_blank" rel="noopener">github.com/gnotacomp/Mindfulity</a></span>
+</footer></div>
+
+<script>
+/* ============================================================
+   Paste the deployed Mindfulity URL here and the demo embeds.
+   e.g. var DEMO_URL = "https://mindfulity.vercel.app";
+   ============================================================ */
+var DEMO_URL = "https://mindfulity.com";
+
+var STAGES = [
+  { name:"Orchestrator", file:".claude/agents/orchestrator.md",
+    desc:"Watches the inbox and owns the hand-off sequence. It reads the raw draft, decides which specialists are needed, and delegates in order — nothing downstream runs until the orchestrator routes it.",
+    io:["reads content/_inbox/*.md","delegates → creator"] },
+  { name:"Content Creator", file:".claude/agents/content-creator.md",
+    desc:"Turns a rough draft into a finished article in the platform's voice — calm, practical, written for someone in the middle of a hard transition rather than browsing casually. Produces the body and the Universal Content Model frontmatter.",
+    io:["in: raw markdown","out: structured MDX"] },
+  { name:"Content Manager", file:".claude/agents/content-manager.md",
+    desc:"Places the article in the taxonomy: which modules it belongs to, which subcategories it maps onto, and whether the frontmatter validates against the content type schema. This is what lets one burnout article surface under three different modules.",
+    io:["validates frontmatter","assigns module × subcategory"] },
+  { name:"Code Dev", file:".claude/agents/code-dev.md",
+    desc:"Lands the result — writes into content/articles/ or straight into Supabase via the publish script, runs the typecheck, and commits. The article is live without a human touching the repo.",
+    io:["writes to provider","npm run typecheck","commit"] }
+];
+
+var MODULES = [
+  { id:"mental-wellness", label:"Mental Wellness", blurb:"Move through loneliness, burnout, stress and anxiety with resilience.", cats:["Loneliness","Burnout","Stress & Anxiety","Emotional Resilience","Relationships","Mindfulness","Healthy Habits"] },
+  { id:"career-recovery", label:"Career Recovery", blurb:"Recover from job loss and reinvent your professional path.", cats:["Job Loss Recovery","Resume Building","Interview Preparation","Career Change","LinkedIn Optimization","Retirement Transition","Job Listings"] },
+  { id:"financial-wellness", label:"Financial Wellness", blurb:"Build financial confidence, from budgeting to retirement planning.", cats:["Budgeting","Retirement Planning","Investing","Estate Planning","Insurance","Financial Confidence"] },
+  { id:"transformation", label:"Transformation", blurb:"Personal growth, reinvention, and purpose discovery.", cats:["Personal Growth","Reinvention","Purpose Discovery","Habit Building","Goal Setting","Life Design","Retirement Lifestyle"] },
+  { id:"inspiration", label:"Inspiration", blurb:"Motivation, success stories, positive living and gratitude.", cats:["Motivational Speeches","Success Stories","Speaker Corner","Positive Living","Feng Shui","Crystals & Symbolism","Mantras & Affirmations","Gratitude","Vision Boards"] },
+  { id:"healing-travel", label:"Healing Travel", blurb:"Wellness retreats, spiritual journeys, and nature escapes.", cats:["Wellness Retreats","Spiritual Journeys","Nature Escapes","Cultural Exploration","Retirement Travel","Bus Tours","Travel Packages"] },
+  { id:"academy", label:"Academy", blurb:"Courses, certifications and bootcamps with progress tracking.", cats:[] },
+  { id:"resources", label:"Resources", blurb:"Articles, videos, podcasts, downloads and assessments.", cats:["Articles","Videos","Podcasts","Downloads","Assessments","Webinars"] },
+  { id:"shop", label:"Shop", blurb:"Wellness products, books and affiliate finds.", cats:[] },
+  { id:"services", label:"Services", blurb:"Coaching, consulting, workshops and webinars — bookable online.", cats:["Wellness Coaching","Career Coaching","Financial Planning","Feng Shui Consultation","Speaker Coaching"] }
+];
+
+var SWAP = {
+  mdx: { code: '<b>// src/lib/content/index.ts</b>\nimport { mdxProvider } from "./mdx-provider";\n\nexport const content = <b>mdxProvider</b>;\n\n<b>// src/app/articles/[slug]/page.tsx</b> — unchanged\nconst article = await content.getArticle(slug);',
+         note: "Articles are MDX files on disk. Zero infrastructure, instant local dev, static generation at build time." },
+  supabase: { code: '<b>// src/lib/content/index.ts</b>\nimport { supabaseProvider } from "./supabase-provider";\n\nexport const content = <b>supabaseProvider</b>;\n\n<b>// src/app/articles/[slug]/page.tsx</b> — unchanged\nconst article = await content.getArticle(slug);',
+         note: "Same call signature, now reading from Postgres. Editors publish without a deploy, and the page component never knew the difference." }
+};
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* pipeline */
+var stageBtns = Array.prototype.slice.call(document.querySelectorAll(".stage"));
+var stageDetail = document.getElementById("stageDetail");
+function renderStage(i){
+  var s = STAGES[i];
+  stageDetail.innerHTML = "<h4>" + esc(s.name) + "</h4><p>" + esc(s.desc) + "</p><div class='io'>"
+    + s.io.map(function(x){ return "<span>" + esc(x) + "</span>"; }).join("")
+    + "<span>" + esc(s.file) + "</span></div>";
+  stageBtns.forEach(function(b,j){ b.setAttribute("aria-selected", j === i ? "true" : "false"); });
+}
+stageBtns.forEach(function(b){ b.addEventListener("click", function(){ renderStage(+b.dataset.i); }); });
+renderStage(0);
+
+/* taxonomy */
+var modsEl = document.querySelector(".mods"), modPanel = document.getElementById("modPanel");
+MODULES.forEach(function(m,i){
+  var b = document.createElement("button");
+  b.className = "mod"; b.type = "button"; b.setAttribute("role","tab");
+  b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+  b.textContent = m.label;
+  b.addEventListener("click", function(){ renderMod(i); });
+  modsEl.appendChild(b);
+});
+function renderMod(i){
+  var m = MODULES[i];
+  var cats = m.cats.length
+    ? m.cats.map(function(c){ return "<span class='cat'>" + esc(c) + "</span>"; }).join("")
+    : "<span class='cat empty'>Subcategories not yet defined — module scaffolded in navigation</span>";
+  modPanel.innerHTML = "<h4>" + esc(m.label) + "</h4><p class='blurb'>" + esc(m.blurb) + "</p><div class='cats'>" + cats + "</div>";
+  Array.prototype.forEach.call(modsEl.children, function(b,j){ b.setAttribute("aria-selected", j === i ? "true":"false"); });
+}
+renderMod(0);
+
+/* provider swap */
+var swapBtns = Array.prototype.slice.call(document.querySelectorAll(".toggle button"));
+var swapCode = document.getElementById("swapCode"), swapNote = document.getElementById("swapNote");
+function renderSwap(k){
+  swapCode.innerHTML = SWAP[k].code;
+  swapNote.textContent = SWAP[k].note;
+  swapBtns.forEach(function(b){ b.setAttribute("aria-selected", b.dataset.p === k ? "true":"false"); });
+}
+swapBtns.forEach(function(b){ b.addEventListener("click", function(){ renderSwap(b.dataset.p); }); });
+renderSwap("mdx");
+
+/* demo — mindfulity.com sends X-Frame-Options: SAMEORIGIN, so it cannot be
+   iframed from this origin. Render a click-through preview instead. */
+if (DEMO_URL) {
+  var host = DEMO_URL.replace(/^https?:\/\//, "");
+  document.getElementById("demoUrlLabel").textContent = host;
+  document.getElementById("demoBox").innerHTML =
+    '<div class="demo-live">'
+  +   '<div class="live-pill"><span class="pulse"></span>Live in production</div>'
+  +   '<p class="big">Mindfulity</p>'
+  +   '<p class="sub">Navigate life’s transitions — and transform them.</p>'
+  +   '<div class="actions" style="justify-content:center">'
+  +     '<a class="btn primary" href="' + DEMO_URL + '" target="_blank" rel="noopener">Open ' + host + ' ↗</a>'
+  +     '<a class="btn" href="https://github.com/gnotacomp/Mindfulity" target="_blank" rel="noopener">Source</a>'
+  +   '</div>'
+  +   '<p class="note">Opens in a new tab — the app sets <code>X-Frame-Options: SAMEORIGIN</code> and cannot be embedded.</p>'
+  + '</div>';
+  var db = document.getElementById("demoBtn");
+  db.href = DEMO_URL; db.target = "_blank"; db.rel = "noopener";
+  db.textContent = "Open live demo ↗";
+}
+
+/* theme */
+(function(){
+  var btn = document.getElementById("themeBtn"), root = document.documentElement;
+  try { var s = localStorage.getItem("theme"); if (s) root.setAttribute("data-theme", s); } catch(e){}
+  btn.addEventListener("click", function(){
+    var dark = root.getAttribute("data-theme") === "dark"
+      || (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

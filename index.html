@@ -98,6 +98,26 @@ h2{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:up
 .cap h4{margin:0 0 9px;font-size:14.5px;font-weight:620;letter-spacing:-.005em}
 .cap p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55}
 
+/* ---------- projects ---------- */
+.project{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:28px 30px;
+  color:inherit;transition:border-color .15s,transform .15s}
+.project:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-2px)}
+.project-top{display:flex;align-items:center;gap:12px;margin-bottom:5px}
+.project h3{margin:0;font-size:21px;font-weight:650;letter-spacing:-.015em}
+.live-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);
+  padding:4px 10px;border-radius:999px}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}
+  70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+.project-tag{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-2);margin:0 0 12px}
+.project-desc{margin:0 0 16px;font-size:14.5px;color:var(--ink-2);line-height:1.6;max-width:68ch}
+.project-chips{display:flex;flex-wrap:wrap;gap:7px}
+.project-go{font-size:14px;color:var(--accent);font-weight:500;white-space:nowrap}
+@media(max-width:720px){.project{grid-template-columns:1fr;gap:18px}.project-go{text-align:left}}
+
 /* ---------- stack ---------- */
 .stack-row{display:grid;grid-template-columns:150px 1fr;gap:22px;padding:15px 0;
   border-top:1px solid var(--line-soft);align-items:baseline}
@@ -132,6 +152,7 @@ footer{border-top:1px solid var(--line-soft);padding:26px 0;display:flex;justify
     <div class="navlinks">
       <a href="#impact">Impact</a>
       <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#stack">Systems</a>
       <a href="#contact" class="cta">Contact</a>
@@ -233,6 +254,30 @@ footer{border-top:1px solid var(--line-soft);padding:26px 0;display:flex;justify
         </ul>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><h2>Projects</h2><div class="rule"></div></div>
+    <a class="project" href="projects/mindfulity/">
+      <div class="project-main">
+        <div class="project-top">
+          <h3>Mindfulity</h3>
+          <span class="live-tag"><span class="pulse"></span>Live</span>
+        </div>
+        <p class="project-tag">Navigate life&rsquo;s transitions &mdash; and transform them.</p>
+        <p class="project-desc">A life-transformation platform for people moving through job loss, burnout,
+          financial uncertainty and reinvention. Ten content modules over a many-to-many taxonomy, Supabase
+          auth and Postgres, and a multi-agent AI pipeline that takes a raw draft to a published, tagged
+          article without a human touching the repo.</p>
+        <div class="project-chips">
+          <span class="chip">Next.js 15</span><span class="chip">React 19</span><span class="chip">TypeScript</span>
+          <span class="chip">Supabase</span><span class="chip">Tailwind</span><span class="chip">AI agents</span>
+        </div>
+      </div>
+      <div class="project-go">Case study &rarr;</div>
+    </a>
   </div>
 </section>
 
