@@ -159,6 +159,36 @@ pre{margin:0;background:var(--surface-2);border:1px solid var(--line);border-rad
 pre b{color:var(--accent-ink);font-weight:600}
 .swap-note{margin:14px 0 0;font-size:13.5px;color:var(--ink-2)}
 
+/* why */
+.why{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 11px 11px 0;
+  padding:20px 24px;margin:0 0 32px;max-width:72ch}
+.why-k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-ink);margin-bottom:9px}
+.why p{margin:0;font-size:15.5px;line-height:1.65;color:var(--ink-2)}
+
+/* deep dives */
+.dd{background:var(--surface);border:1px solid var(--line);border-radius:11px;margin-bottom:10px;
+  overflow:hidden}
+.dd[open]{border-color:var(--accent)}
+.dd summary{cursor:pointer;padding:17px 20px;display:flex;align-items:baseline;gap:14px;
+  flex-wrap:wrap;list-style:none;user-select:none}
+.dd summary::-webkit-details-marker{display:none}
+.dd summary::before{content:"+";font-family:var(--mono);font-size:15px;color:var(--accent);
+  width:14px;flex:none}
+.dd[open] summary::before{content:"\2212"}
+.dd summary:hover .dd-t{color:var(--accent)}
+.dd-t{font-weight:620;font-size:15.5px;letter-spacing:-.005em}
+.dd-m{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-left:auto;letter-spacing:.03em}
+.dd-body{padding:4px 22px 24px 22px;border-top:1px solid var(--line-soft);margin-top:2px}
+.dd-body p{font-size:14.5px;color:var(--ink-2);line-height:1.62;margin:16px 0}
+.dd-body pre{margin:16px 0}
+.dd-body pre i{color:var(--ink-3);font-style:italic}
+.dd-body code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);
+  border:1px solid var(--line);padding:1.5px 6px;border-radius:5px}
+.dd-note{font-size:13.5px!important;color:var(--ink-3)!important;border-left:2px solid var(--line);
+  padding-left:14px;margin-bottom:0!important}
+@media(max-width:620px){.dd-m{margin-left:0;width:100%}}
+
 /* stack */
 .stack-row{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:14px 0;
   border-top:1px solid var(--line-soft);align-items:baseline}
@@ -194,6 +224,7 @@ footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;
       <a href="#pipeline">AI Pipeline</a>
       <a href="#taxonomy">Platform</a>
       <a href="#architecture">Architecture</a>
+      <a href="#deep">Deep Dives</a>
       <a href="#status">Status</a>
       <button id="themeBtn" title="Toggle theme" aria-label="Toggle colour theme">&#9680;</button>
     </div>
@@ -220,6 +251,13 @@ footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;
 <section id="problem">
   <div class="wrap">
     <div class="sec-head"><h2>The Problem</h2><div class="rule"></div></div>
+    <div class="why">
+      <div class="why-k">Why I built this</div>
+      <p>Nineteen years in semiconductors and hardware &mdash; industries that restructure in waves. I watched
+        capable people lose roles for reasons that had nothing to do with the quality of their work, then try to
+        rebuild across a dozen disconnected tools that each knew one tenth of their situation. Mindfulity is the
+        platform I wanted to be able to hand them.</p>
+    </div>
     <p class="problem">Life transitions are handled by <em>fragmented tools</em> that each solve one tenth of the problem.</p>
     <p class="sec-intro">Someone who loses a job at 55 needs career help, financial guidance, and mental-health
       support at the same moment &mdash; and today that means a job board, a budgeting app, a therapy directory,
@@ -290,7 +328,7 @@ footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;
       interface, so the storage backend is a one-line swap.</p>
     <div class="arch">
       <div class="layer"><div class="lk">Presentation</div><h4>Next.js 15 App Router</h4><p>React 19 server components, static generation for article routes, Tailwind for styling. Dynamic <code style="font-family:var(--mono);font-size:12px">[module]</code> and <code style="font-family:var(--mono);font-size:12px">articles/[slug]</code> segments driven by config.</p></div>
-      <div class="layer"><div class="lk">Abstraction</div><h4>ContentProvider interface</h4><p>A single contract in <code style="font-family:var(--mono);font-size:12px">lib/content/provider.ts</code>. Two implementations ship today &mdash; MDX filesystem and Supabase Postgres &mdash; selected in one place.</p></div>
+      <div class="layer"><div class="lk">Abstraction</div><h4>ContentProvider interface</h4><p>A single contract in <code style="font-family:var(--mono);font-size:12px">lib/content/provider.ts</code>. Two implementations ship &mdash; MDX filesystem and Supabase Postgres &mdash; and the platform has already migrated across them without a page component changing.</p></div>
       <div class="layer"><div class="lk">Data</div><h4>Supabase</h4><p>Auth with OAuth callback handling, Postgres holding the category/subcategory/module taxonomy, and storage. Typed end-to-end against the generated schema.</p></div>
       <div class="layer"><div class="lk">Automation</div><h4>Agent workflow</h4><p>Four Claude agents defined as markdown specs in <code style="font-family:var(--mono);font-size:12px">.claude/agents/</code>, invoked by a publish script that writes straight into the content store.</p></div>
     </div>
@@ -305,6 +343,123 @@ footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;
       <pre id="swapCode"></pre>
       <p class="swap-note" id="swapNote"></p>
     </div>
+  </div>
+</section>
+
+<section id="deep">
+  <div class="wrap">
+    <div class="sec-head"><h2>Technical Deep Dives</h2><div class="rule"></div></div>
+    <p class="sec-intro">Collapsed by default &mdash; open whichever ones you care about. Everything below is the
+      actual source, not a simplification.</p>
+
+    <details class="dd">
+      <summary><span class="dd-t">The ContentProvider seam</span><span class="dd-m">5 methods · lib/content/provider.ts</span></summary>
+      <div class="dd-body">
+        <p>The architectural bet of the project. Pages depend on this interface and nothing else, so storage is a
+          swappable detail. Both implementations exist &mdash; and the swap has already been exercised in
+          production, which is the part that matters: the platform now runs on Supabase, and not one page
+          component changed when it moved off MDX.</p>
+<pre><b>export interface</b> ContentProvider {
+  <i>/** List content matching a query. Only published+public unless overridden. */</i>
+  list(query?: ContentQuery): Promise&lt;AnyContent[]&gt;;
+
+  <i>/** Fetch a single content object by type + slug. */</i>
+  getBySlug(type: ContentType, slug: string): Promise&lt;AnyContent | <b>null</b>&gt;;
+
+  <i>/** Fetch an article (with rendered body) by slug. */</i>
+  getArticle(slug: string): Promise&lt;Article | <b>null</b>&gt;;
+
+  <i>/** All article slugs — used for static generation. */</i>
+  articleSlugs(): Promise&lt;string[]&gt;;
+
+  <i>/** Related content — admin overrides, then shared tags, then category. */</i>
+  related(item: AnyContent, limit?: number): Promise&lt;AnyContent[]&gt;;
+}</pre>
+        <p class="dd-note">That last method is the Content Relationship Engine: resolution honours manual
+          <code>relatedIds</code> first, then shared tags and keywords, then same-category fallback &mdash; so
+          editorial intent always beats the algorithm.</p>
+      </div>
+    </details>
+
+    <details class="dd">
+      <summary><span class="dd-t">Universal Content Model</span><span class="dd-m">15 content types · one shape</span></summary>
+      <div class="dd-body">
+        <p>Every object on the platform &mdash; article, course, coach, travel package, testimonial &mdash; shares
+          one base shape and extends it. This is what lets a single taxonomy, a single relationship engine, and a
+          single provider interface serve wildly different content without special-casing.</p>
+<pre><b>export type</b> ContentType =
+  | "article"   | "video"    | "podcast"  | "download"
+  | "resource"  | "product"  | "service"  | "course"
+  | "webinar"   | "workshop" | "event"    | "travel-package"
+  | "coach"     | "speaker"  | "testimonial";
+
+<b>export type</b> PublishStatus = "draft" | "scheduled" | "published" | "archived";
+<b>export type</b> Visibility    = "public" | "members" | "private";
+
+<b>export interface</b> BaseContent {
+  id: string;  type: ContentType;  slug: string;  module: ModuleId;
+  title: string;  summary: string;  description?: string;
+  category?: string;  subcategory?: string;
+  tags: string[];  keywords: string[];
+  <i>/* …featuredImage, gallery, SEO fields, status, visibility */</i>
+}</pre>
+        <p class="dd-note">Pages depend only on these types &mdash; never on where content physically lives.</p>
+      </div>
+    </details>
+
+    <details class="dd">
+      <summary><span class="dd-t">Postgres schema &amp; row-level security</span><span class="dd-m">2 migrations · 5 roles</span></summary>
+      <div class="dd-body">
+        <p>The taxonomy from the vision document, expressed as real Postgres. Five user roles, enum-constrained
+          content types mirroring the TypeScript union, and a profiles table that auto-populates from
+          <code>auth.users</code> via trigger. RLS policies ship in the second migration.</p>
+<pre><b>create type</b> user_role <b>as enum</b> (
+  'visitor', 'member', 'coach', 'vendor', 'admin'
+);
+
+<b>create type</b> content_type <b>as enum</b> (
+  'article', 'video', 'podcast', 'download', 'resource', 'product',
+  'service', 'course', 'webinar', 'workshop', 'event', 'travel_package',
+  'coach', 'speaker', 'testimonial'
+);
+
+<b>create type</b> publish_status  <b>as enum</b> ('draft','scheduled','published','archived');
+<b>create type</b> visibility_level <b>as enum</b> ('public','members','private');
+<b>create type</b> booking_status   <b>as enum</b> ('pending','confirmed','cancelled',
+                                        'waitlisted','attended');
+
+<b>create table</b> profiles (
+  id         uuid <b>primary key references</b> auth.users (id) <b>on delete cascade</b>,
+  full_name  text,
+  role       user_role <b>not null default</b> 'member',
+  created_at timestamptz <b>not null default</b> now()
+);</pre>
+        <p class="dd-note">The <code>booking_status</code> enum is the seam for the Services module &mdash;
+          coaching and workshops are bookable objects in the same content model, not a bolted-on subsystem.</p>
+      </div>
+    </details>
+
+    <details class="dd">
+      <summary><span class="dd-t">How an agent is actually defined</span><span class="dd-m">markdown spec · 4 agents</span></summary>
+      <div class="dd-body">
+        <p>Each pipeline stage is a markdown file with frontmatter declaring its tools, model, and contract.
+          No orchestration framework &mdash; the specs are the program. Here is the real content-manager header:</p>
+<pre>---
+name: content-manager
+description: &gt;-
+  Packages finished article content into a schema-valid staging file for
+  publishing. Use after content-creator produces body + suggested metadata.
+  Builds Universal Content Model frontmatter, picks the URL slug and SEO
+  fields, and writes a staging file to content/_inbox/. Does not publish
+  (that's code-dev, which inserts it into Supabase).
+tools: Read, Write, Edit, Glob, Grep, Bash
+model: opus
+---</pre>
+        <p class="dd-note">Note the explicit non-responsibility &mdash; <i>does not publish</i>. Each agent's spec
+          names what it must not do, which is what keeps a four-stage chain from collapsing into one agent that
+          does everything badly.</p>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -342,7 +497,7 @@ footer{padding:40px 0;display:flex;justify-content:space-between;flex-wrap:wrap;
       <div class="srow"><span class="badge live">Working</span><span class="txt"><b>Taxonomy schema</b> — categories, subcategories, modules and their many-to-many joins, seeded into Postgres</span></div>
       <div class="srow"><span class="badge scaf">Scaffolded</span><span class="txt"><b>Payments</b> — Stripe and PayPal environment scaffolding in place, checkout flows not yet built</span></div>
       <div class="srow"><span class="badge scaf">Scaffolded</span><span class="txt"><b>Academy &amp; Shop modules</b> — defined in the taxonomy with navigation, course and commerce features pending</span></div>
-      <div class="srow"><span class="badge scaf">Early</span><span class="txt"><b>Content library</b> — two full articles published through the pipeline; the pipeline is the product, the library grows from it</span></div>
+      <div class="srow"><span class="badge scaf">Early</span><span class="txt"><b>Content library</b> — seeded, and growing through the agent pipeline rather than by hand; the pipeline is the product, the library compounds from it</span></div>
     </div>
   </div>
 </section>
@@ -389,9 +544,9 @@ var MODULES = [
 
 var SWAP = {
   mdx: { code: '<b>// src/lib/content/index.ts</b>\nimport { mdxProvider } from "./mdx-provider";\n\nexport const content = <b>mdxProvider</b>;\n\n<b>// src/app/articles/[slug]/page.tsx</b> — unchanged\nconst article = await content.getArticle(slug);',
-         note: "Articles are MDX files on disk. Zero infrastructure, instant local dev, static generation at build time." },
+         note: "How it started. Articles as MDX files on disk — zero infrastructure, instant local dev, static generation at build time." },
   supabase: { code: '<b>// src/lib/content/index.ts</b>\nimport { supabaseProvider } from "./supabase-provider";\n\nexport const content = <b>supabaseProvider</b>;\n\n<b>// src/app/articles/[slug]/page.tsx</b> — unchanged\nconst article = await content.getArticle(slug);',
-         note: "Same call signature, now reading from Postgres. Editors publish without a deploy, and the page component never knew the difference." }
+         note: "Where it runs today (CONTENT_BACKEND=supabase). Same call signature, now reading from Postgres. Editors publish without a deploy — and when the backend flipped, not one page component changed. The abstraction earned its keep." }
 };
 
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
