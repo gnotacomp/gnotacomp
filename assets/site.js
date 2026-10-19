@@ -125,4 +125,33 @@
       if (section) observer.observe(section);
     });
   }
+
+  /* Scroll reveal — slide blocks in from the left, staggered within each group.
+     Grid blocks with shared cell borders (.metrics, .pipe) animate as a single
+     unit; sliding their cells independently would tear the grid mid-transition. */
+  const REVEAL = [
+    '.metrics', '.impact-story', '.job', '.project', '.cap', '.stack-row',
+    '.edu .card', '.career-index', '.pcol', '.demo-launch', '.pipe',
+    '.stage-detail', '.mod-panel', '.layer', '.swap', '.dd', '.srow'
+  ].join(', ');
+
+  if ('IntersectionObserver' in window &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const blocks = [...document.querySelectorAll(REVEAL)];
+    const revealer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.transitionDelay = `${entry.target.dataset.revealDelay || 0}ms`;
+        entry.target.classList.add('in');
+        revealer.unobserve(entry.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    blocks.forEach(block => {
+      const index = [...block.parentNode.children].indexOf(block);
+      block.dataset.revealDelay = Math.min(index, 6) * 70;
+      block.classList.add('reveal');
+      revealer.observe(block);
+    });
+  }
 })();
